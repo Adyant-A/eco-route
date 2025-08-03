@@ -4,4 +4,28 @@
   font-family: 'JetBrains Mono', monospace;
 }
 
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
+  padding: 20px;
+  background-color: #ffffff;
+  width: 400px;
+  align-items: center;
+}
 
+.input {
+  margin-bottom: 25px;
+}
+
+.button {
+  background-color: #109548; /* Green */
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
