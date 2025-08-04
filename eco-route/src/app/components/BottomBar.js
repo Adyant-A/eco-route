@@ -16,50 +16,50 @@ export default function BottomBar({ activeTab }) {
         <div className={styles.bottomBar}>
             {/* Maps tab */}
             {activeTab === "maps" ? (
-                <div className={styles.link}>
-                    <Image src={mapsOn} alt="Maps Icon" width={24} height={24} />
-                    <span className={styles.linkText}>Maps</span>
+                <div className={`${styles.link} ${styles.active}`}>
+                    <Image src={mapsOn} alt="Maps Icon" width={30} height={30} />
+                    <span className={styles.linkText}>MAPS</span>
                 </div>
             ) : (
                 <Link href="/maps" className={styles.link}>
-                    <Image src={mapsOff} alt="Maps Icon" width={24} height={24} />
-                    <span className={styles.linkText}>Maps</span>
+                    <Image src={mapsOff} alt="Maps Icon" width={30} height={30} />
+                    <span className={styles.linkText}>MAPS</span>
                 </Link>
             )}
             {/* Favorites tab */}
             {activeTab === "favorites" ? (
-                <div className={styles.link}>
-                    <Image src={favOn} alt="Favorites Icon" width={24} height={24} />
-                    <span className={styles.linkText}>Favorites</span>
+                <div className={`${styles.link} ${styles.active}`}>
+                    <Image src={favOn} alt="Favorites Icon" width={30} height={30} />
+                    <span className={styles.linkText}>FAVORITES</span>
                 </div>
             ) : (
                 <Link href="/favorites" className={styles.link}>
-                    <Image src={favOff} alt="Favorites Icon" width={24} height={24} />
-                    <span className={styles.linkText}>Favorites</span>
+                    <Image src={favOff} alt="Favorites Icon" width={30} height={30} />
+                    <span className={styles.linkText}>FAVORITES</span>
                 </Link>
             )}
             {/* Stats tab */}
             {activeTab === "stats" ? (
-                <div className={styles.link}>
-                    <Image src={statsOn} alt="Stats Icon" width={24} height={24} />
-                    <span className={styles.linkText}>Stats</span>
+                <div className={`${styles.link} ${styles.active}`}>
+                    <Image src={statsOn} alt="Stats Icon" width={30} height={30} />
+                    <span className={styles.linkText}>STATS</span>
                 </div>
             ) : (
                 <Link href="/stats" className={styles.link}>
-                    <Image src={statsOff} alt="Stats Icon" width={24} height={24} />
-                    <span className={styles.linkText}>Stats</span>
+                    <Image src={statsOff} alt="Stats Icon" width={30} height={30} />
+                    <span className={styles.linkText}>STATS</span>
                 </Link>
             )}
             {/* Settings tab */}
             {activeTab === "settings" ? (
-                <div className={styles.link}>
-                    <Image src={settingsOn} alt="Settings Icon" width={24} height={24} />
-                    <span className={styles.linkText}>Settings</span>
+                <div className={`${styles.link} ${styles.active}`}>
+                    <Image src={settingsOn} alt="Settings Icon" width={30} height={30} />
+                    <span className={styles.linkText}>SETTINGS</span>
                 </div>
             ) : (
                 <Link href="/settings" className={styles.link}>
-                    <Image src={settingsOff} alt="Settings Icon" width={24} height={24} />
-                    <span className={styles.linkText}>Settings</span>
+                    <Image src={settingsOff} alt="Settings Icon" width={30} height={30} />
+                    <span className={styles.linkText}>SETTINGS</span>
                 </Link>
             )}
         </div>
