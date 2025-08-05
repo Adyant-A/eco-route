@@ -119,6 +119,12 @@
   color: rgba(16, 149, 72, 1);;
 }
 
+.badReccomendation {
+  font-style: italic;
+  font-weight: 600;
+  color: #DE9151
+}
+
 .address {
   font-style: bold;
   font-size: 12px;

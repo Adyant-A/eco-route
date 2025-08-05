@@ -24,7 +24,7 @@ export default function Favorites() {
           <Button className={[styles.favButton, styles.clicked].join(' ')}><Link href="/favorites">Places</Link></Button>
           <Button className={styles.favButton}><Link href="/transportation">Transportation</Link></Button>
         </div>
-        <h3>Saved Places</h3>
+        <h3>My Places</h3>
         <div className={styles.infoBlock}>
           <Image src={house} alt="House Icon" width={55} height={55} style={{marginLeft: "10px"}}/>
           <p><strong>HOME</strong> <br></br>1234 Crescent Avenue,  <br></br>San Ramon, CA 94582</p>
