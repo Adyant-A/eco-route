@@ -15,3 +15,16 @@ body {
   background-color: #c1bcbc;
 }
 
+h3 {
+  color: #171614;
+  font-size: 20px;
+  text-align: left !important;
+  font-style: italic;
+  margin-bottom: 10px;
+  width: 100%;
+  display: block;
+}
+
+p {
+  font-size: 13px;
+}

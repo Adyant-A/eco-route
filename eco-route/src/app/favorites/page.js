@@ -4,24 +4,57 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import logout from '../icons/logout.png';
+import house from '../images/favImages/house.png';
+import pencil from '../images/favImages/pencil.png';
+import school from '../images/favImages/school.png';
+import coffee from '../images/favImages/coffee.png';
+import park from '../images/favImages/park.png';
 
 import { Button } from '@heroui/button';
-import {Input} from "@heroui/react";
+
 
 export default function Favorites() {
   return (
     <div className={styles.page}>
       <div className={styles.container}>
-        {/* TODO: Add start point, destination  inputs, h1 with styling from figma, hr for horizontal line, all styles go in page.module.css */}
         <h1 className={styles.title}>FAVORITES</h1>
         <hr className={styles.seperator}/>
         <Button className={styles.homeButton}><Link href="/"> <Image src={logout} alt="Home Icon" width={30} height={30} /></Link></Button>
         <div style={{ display: 'flex', flexDirection: 'row', gap: '10px'}}>
-          <Button className={styles.button}><Link href="/">Places</Link></Button>
-          <Button className={styles.button}><Link href="/">Transportation</Link></Button>
+          <Button className={[styles.favButton, styles.clicked].join(' ')}><Link href="/favorites">Places</Link></Button>
+          <Button className={styles.favButton}><Link href="/transportation">Transportation</Link></Button>
         </div>
-       
-
+        <h3>Saved Places</h3>
+        <div className={styles.infoBlock}>
+          <Image src={house} alt="House Icon" width={55} height={55} style={{marginLeft: "10px"}}/>
+          <p><strong>HOME</strong> <br></br>1234 Crescent Avenue,  <br></br>San Ramon, CA 94582</p>
+          <Image src={pencil} alt="House Icon" width={20} height={20} />
+        </div>
+         <div className={styles.detailBlock}>
+            <Image src={school} alt="House Icon" width={70} height={70} style={{marginLeft: "6px"}}/>
+             <div className={styles.details}>
+              <p className={styles.location}>Dougherty Valley High School</p>
+              <p className={styles.recommendation}>Bicycle recommended</p>
+              <p className={styles.address}>10550 Albion Rd,<br></br> San Ramon, CA 94582</p>
+             </div>
+         </div>
+         <div className={styles.detailBlock}>
+              <Image src={coffee} alt="House Icon" width={70} height={70} style={{marginLeft: "6px"}}/>
+             <div className={styles.details}>
+              <p className={styles.location}>Peet's Coffee</p>
+              <p className={styles.recommendation}>Bus recommended</p>
+              <p className={styles.address}>11000 Bollinger Canyon Rd Suite,<br></br> San Ramon, CA 94582</p>
+             </div>
+         </div>
+         <div className={styles.detailBlock}>
+              <Image src={park} alt="House Icon" width={70} height={70} style={{marginLeft: "6px"}}/>
+             <div className={styles.details}>
+              <p className={styles.location}>Rancho San Ramon Community Park</p>
+              <p className={styles.recommendation}>Car recommended</p>
+              <p className={styles.address}>1998 Rancho Park Loop,<br></br> San Ramon, CA 94582</p>
+             </div>
+         </div>
+         <Button className={styles.button}><Link href="">Add Place</Link></Button>
         <BottomBar activeTab="favorites" />
       </div>
     </div>
