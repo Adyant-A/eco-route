@@ -7,6 +7,8 @@ import logout from '../icons/logout.png';
 
 import { Button } from '@heroui/button';
 import {Input} from "@heroui/react";
+import {Avatar} from "@heroui/react";
+import { Switch } from "@heroui/react";
 
 export default function Settings() {
   return (
@@ -16,12 +18,21 @@ export default function Settings() {
         <h1 className={styles.title}>SETTINGS</h1>
         <hr className={styles.seperator}/>
         <Button className={styles.homeButton}><Link href="/"> <Image src={logout} alt="Home Icon" width={30} height={30} /></Link></Button>
-        {/* TODO: (these are things that we'd mention as future things to add to the app)
-             > Make a box for C02 saved and total miles traveled w/ the app 
-             > Show miles traveled in each vehicle type (make a table)
-             > Common transit routes taken 
-             > Challenges completed 
-         */}
+        <Avatar 
+          className={styles.avatar} 
+          size="lg" 
+          isBordered 
+          src="./profile.png" 
+          alt="User Avatar" 
+          style={{marginBottom: "20px"}}
+        />
+         <Input label="Name" placeholder="Adyant Akula" className={styles.input} key={"primary"}/>
+         <Input label="Home Address" placeholder="1234 Crescent Avenue, San Ramon, 94582" className={styles.input} key={"primary"}/>
+         <Input label="Phone Number" placeholder="925-123-4567" className={styles.input} key={"primary"}/>
+         <Switch defaultSelected>Enable text messages</Switch>
+         <Switch defaultSelected>Car preferred</Switch>
+         <Switch defaultSelected>Enable text messages</Switch>
+         <p>Member since August 2025</p>
         <BottomBar activeTab="settings" />
       </div>
     </div>
