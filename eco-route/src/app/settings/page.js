@@ -14,7 +14,6 @@ export default function Settings() {
   return (
     <div className={styles.page}>
       <div className={styles.container}>
-        {/* TODO: Add start point, destination  inputs, h1 with styling from figma, hr for horizontal line, all styles go in page.module.css */}
         <h1 className={styles.title}>SETTINGS</h1>
         <hr className={styles.seperator}/>
         <Button className={styles.homeButton}><Link href="/"> <Image src={logout} alt="Home Icon" width={30} height={30} /></Link></Button>
@@ -49,7 +48,7 @@ export default function Settings() {
          <div className={styles.switchContainer}> 
            <Switch size="sm" color="success"><p style={{fontSize:"14px"}}>I use Uber</p></Switch>
          </div>
-         <p style={{fontWeight:"bold", color:"gray"}}>Member since August 2025</p>
+         <p style={{fontWeight:"bold", color:"gray"}}>Member since Jan 2025</p>
         <BottomBar activeTab="settings" />
       </div>
     </div>
