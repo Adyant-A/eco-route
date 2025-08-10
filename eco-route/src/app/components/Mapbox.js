@@ -52,7 +52,7 @@ export default function Mapbox ({ mapStyle, initialViewState, style, maxZoom, mi
                 type: 'line',
                 source: 'route',
                 layout: { 'line-join': 'round', 'line-cap': 'round' },
-                paint: { 'line-color': '#3887be', 'line-width': 5 }
+                paint: { 'line-color': '#007EA7', 'line-width': 5 }
             });
         };
 
@@ -62,7 +62,7 @@ export default function Mapbox ({ mapStyle, initialViewState, style, maxZoom, mi
     return (
         <div
             ref={mapContainer}
-            style={typeof style === "object" ? style : { width: "100%", height: "400px", borderRadius: "8px" }}
+            style={typeof style === "object" ? style : { width: "100%", height: "380px", borderRadius: "8px" }}
         />
     );
 }

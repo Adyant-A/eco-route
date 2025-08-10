@@ -178,3 +178,10 @@
 .miles {
   font-size: 17px;
 }
+
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  width: 365px;
+  margin: -6px;
+}

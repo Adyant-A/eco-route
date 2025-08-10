@@ -1,11 +1,11 @@
 "use client";
 
 import styles from "../page.module.css";
+
 import BottomBar from '../components/BottomBar';
 import Image from 'next/image';
 import Link from 'next/link';
-import mapboxgl from "mapbox-gl";
-import Mapbox from "../components/Mapbox"; 
+import Mapbox from "../components/Mapbox";
 
 import logout from '../icons/logout.png';
 import bicycle from '../images/favImages/bicycle.png';
@@ -14,42 +14,161 @@ import car from '../images/favImages/car.png';
 import uber from '../images/favImages/uber.png';
 
 import { Button } from '@heroui/button';
-import {Input} from "@heroui/react";
+import { Input } from "@heroui/react";
+import { AddressAutofill } from '@mapbox/search-js-react';
+import { useState, useMemo } from 'react';
+
+const MAPBOX_TOKEN = "pk.eyJ1IjoiYWR5bWFwcyIsImEiOiJjbWR4b2R1MTUxdzhqMmxvbmFpYXF4azJkIn0.OYKbEcywM_i-3CNIMQmsdg";
+
+const MAPBOX_CONFIG = {
+  mapStyle: "mapbox://styles/mapbox/streets-v12",
+  maxZoom: 20,
+  minZoom: 3,
+  initialViewState: {
+    latitude: 37.7577,
+    longitude: -121.9358,
+    zoom: 11
+  }
+};
 
 export default function Maps() {
-  const mapboxToken = "pk.eyJ1IjoiYWR5bWFwcyIsImEiOiJjbWR4b2R1MTUxdzhqMmxvbmFpYXF4azJkIn0.OYKbEcywM_i-3CNIMQmsdg";
+  // Form inputs (for typing)
+  const [inputStart, setInputStart] = useState("");
+  const [inputDest, setInputDest] = useState("");
 
-  // Geocoded coordinates
-  const start = { lng: -121.9358, lat: 37.7577 }; // Cedarwood Loop, San Ramon
-  const destination = { lng: -121.9071, lat: 37.7285 }; // Dougherty Valley High School, CA
+  // Map coordinates (only update on "Get Route")
+  const [startCoords, setStartCoords] = useState(null);
+  const [destCoords, setDestCoords] = useState(null);
+
+  async function handleRoute() {
+    const start = await geocodeAddress(inputStart);
+    const dest = await geocodeAddress(inputDest);
+    setStartCoords(start);
+    setDestCoords(dest);
+  }
+
+  async function geocodeAddress(address) {
+    console.log("Geocoding address:", address);
+    const res = await fetch(
+      `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(address)}.json?access_token=${MAPBOX_TOKEN}`
+    );
+    const data = await res.json();
+    if (data.features.length > 0) {
+      const [lng, lat] = data.features[0].center;
+      return { lng, lat };
+    }
+    return null;
+  }
+
+  async function getRoadDistance(start, end, accessToken) {
+  try {
+    const response = await fetch(
+      `https://api.mapbox.com/directions/v5/mapbox/driving/${start.lng},${start.lat};${end.lng},${end.lat}?` +
+      `access_token=${accessToken}&geometries=geojson&overview=simplified`
+    );
+    
+    const data = await response.json();
+    
+    if (data.routes && data.routes.length > 0) {
+      const distanceMeters = data.routes[0].distance;
+      const distanceMiles = distanceMeters * 0.000621371;
+      return Math.round(distanceMiles * 100) / 100;
+    }
+    return null;
+  } catch (error) {
+    console.error('Error fetching road distance:', error);
+    return null;
+  }
+}
+
+  // Memoize the Mapbox component to prevent unnecessary re-renders
+  const memoizedMapbox = useMemo(() => (
+    <Mapbox
+      mapboxAccessToken={MAPBOX_TOKEN}
+      {...MAPBOX_CONFIG}
+      start={startCoords}
+      destination={destCoords}
+    />
+  ), [startCoords, destCoords]);
 
   return (
     <div className={styles.page}>
       <div className={styles.container}>
-        <Button className={styles.homeButton}><Link href="/"> <Image src={logout} alt="Home Icon" width={30} height={30} /></Link></Button>
+        <Button className={styles.homeButton}>
+          <Link href="/">
+            <Image src={logout} alt="Home Icon" width={30} height={30} />
+          </Link>
+        </Button>
+
         <h1 className={styles.title}>MAPS</h1>
-        <hr className={styles.seperator}/>
-        <Input label="Start Point" type="text" className={styles.mapInput} key={"primary"} color={"primary"}/>
-        <Input label="Destination" type="text" className={styles.input} key={"primary"} color={"primary"}/>
-        <div className={styles.detailBlock} style={{marginTop: "-10px"}}>
-          <Image src={bicycle} alt="Bicycle Icon" width={50} height={50} style={{marginLeft: "10px"}}/>
-             <div className={styles.details}>
-              <p className={styles.vehicleType} style={{marginLeft: "-8px"}}>Bicycle Recommended</p>
-             </div>
-             <div className={styles.details} style={{marginLeft: "-58px"}}>
-              <span style={{borderLeft: "2px solid #007EA7", height: "35px", paddingLeft: "10px"}}><p className={styles.address}>CO2 Emissions Saved:<strong style={{color: "#109548"}}> 2 kg</strong></p></span>
-             </div>
-          </div>  
-         <Mapbox
-                mapboxAccessToken={mapboxToken}
-                mapStyle="mapbox://styles/mapbox/streets-v12"
-                initialViewState={{ latitude: 37.7577, longitude: -121.9358, zoom: 12 }}
-                maxZoom={20}
-                minZoom={3}
-                start={start}
-                destination={destination}
-            ></Mapbox>
-          {/* TODO: save the start point and the destination, build a route from point A to point B */}
+        <hr className={styles.seperator} />
+
+        <form style={{ width: '100%', marginTop: '-10px' }}>
+          <AddressAutofill accessToken={MAPBOX_TOKEN}>
+            <Input
+              label="Start Point"
+              type="text"
+              className={styles.mapInput}
+              key="start-primary"
+              color="primary"
+              value={inputStart}
+              onChange={(e) => setInputStart(e.target.value)}
+              autoComplete="address-line1"
+              style={{ width: '100%' }}
+            />
+          </AddressAutofill>
+        </form>
+
+        <form style={{ width: '100%', marginTop: '-1px' }}>
+          <AddressAutofill accessToken={MAPBOX_TOKEN}>
+            <Input
+              label="Destination"
+              type="text"
+              className={styles.input}
+              key="dest-primary"
+              color="primary"
+              value={inputDest}
+              onChange={(e) => setInputDest(e.target.value)}
+              autoComplete="address-line1"
+              style={{ width: '100%' }}                
+            />
+          </AddressAutofill>
+        </form>
+
+        <div className={styles.inputContainer}>
+          <Button
+            className={styles.button}
+            onPress={handleRoute}
+            style={{ marginTop: "-10px" }}
+          >
+            Start
+          </Button>
+        </div>
+
+        <div className={styles.detailBlock} style={{ marginTop: "10px" }}>
+          <Image
+            src={bicycle}
+            alt="Bicycle Icon"
+            width={50}
+            height={50}
+            style={{ marginLeft: "10px" }}
+          />
+          <div className={styles.details}>
+            <p className={styles.vehicleType} style={{ marginLeft: "-8px" }}>
+              Bicycle Recommended
+            </p>
+          </div>
+          <div className={styles.details} style={{ marginLeft: "-58px" }}>
+            <span style={{ borderLeft: "2px solid #007EA7", height: "35px", paddingLeft: "10px" }}>
+              <p className={styles.address}>
+                CO2 Emissions Saved:<strong style={{ color: "#109548" }}> 2 kg</strong>
+              </p>
+            </span>
+          </div>
+        </div>
+
+        {memoizedMapbox}
+
         <BottomBar activeTab="maps" />
       </div>
     </div>
