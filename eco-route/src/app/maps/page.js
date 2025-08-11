@@ -16,6 +16,7 @@ import uber from '../images/favImages/uber.png';
 import { Button } from '@heroui/button';
 import { Input } from "@heroui/react";
 import { AddressAutofill } from '@mapbox/search-js-react';
+import { SearchBox } from "@mapbox/search-js-react"; 
 import { useState, useMemo } from 'react';
 
 const MAPBOX_TOKEN = "pk.eyJ1IjoiYWR5bWFwcyIsImEiOiJjbWR4b2R1MTUxdzhqMmxvbmFpYXF4azJkIn0.OYKbEcywM_i-3CNIMQmsdg";
@@ -76,7 +77,6 @@ export default function Maps() {
     }
     return null;
   } catch (error) {
-    console.error('Error fetching road distance:', error);
     return null;
   }
 }
@@ -118,7 +118,6 @@ export default function Maps() {
             />
           </AddressAutofill>
         </form>
-
         <form style={{ width: '100%', marginTop: '-1px' }}>
           <AddressAutofill accessToken={MAPBOX_TOKEN}>
             <Input
