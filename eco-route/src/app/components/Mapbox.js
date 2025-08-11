@@ -55,6 +55,12 @@ export default function Mapbox ({ mapStyle, initialViewState, style, maxZoom, mi
                 layout: { 'line-join': 'round', 'line-cap': 'round' },
                 paint: { 'line-color': '#007EA7', 'line-width': 5 }
             });
+            mapRef.current.fitBounds([
+                [start.lng, start.lat],
+                [destination.lng, destination.lat]
+            ], {
+                padding: { top: 40, bottom: 40, left: 20, right: 20 }
+            });
         };
 
         getRoute();

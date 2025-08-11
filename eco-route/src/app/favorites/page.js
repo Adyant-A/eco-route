@@ -30,15 +30,41 @@ export default function Favorites() {
           <p><strong>HOME</strong> <br></br>1234 Crescent Avenue,  <br></br>San Ramon, CA 94582</p>
           <Image src={pencil} alt="House Icon" width={20} height={20} />
         </div>
-         <div className={styles.detailBlock}>
+         <div className={styles.detailBlock} style={{position: "relative"}}>
+           <span
+            style={{
+              position: "absolute",
+              top: "2px",
+              right: "10px",
+              cursor: "pointer",
+              fontWeight: "bold",
+              color: "#999",
+              fontSize: "20px",
+            }}
+          >
+            &#10005;
+          </span>
             <Image src={school} alt="House Icon" width={70} height={70} style={{marginLeft: "6px"}}/>
              <div className={styles.details}>
-              <p className={styles.location}>Dougherty Valley High School</p>
+              <p className={styles.location}>Dougherty Valley <br></br>High School</p>
               <p className={styles.recommendation}>Bicycle recommended</p>
               <p className={styles.address}>10550 Albion Rd,<br></br> San Ramon, CA 94582</p>
              </div>
          </div>
-         <div className={styles.detailBlock}>
+         <div className={styles.detailBlock} style={{position: "relative"}}>
+          <span
+            style={{
+              position: "absolute",
+              top: "2px",
+              right: "10px",
+              cursor: "pointer",
+              fontWeight: "bold",
+              color: "#999",
+              fontSize: "20px",
+            }}
+          >
+            &#10005;
+          </span>
               <Image src={coffee} alt="House Icon" width={70} height={70} style={{marginLeft: "6px"}}/>
              <div className={styles.details}>
               <p className={styles.location}>Peet's Coffee</p>
@@ -46,7 +72,20 @@ export default function Favorites() {
               <p className={styles.address}>11000 Bollinger Canyon Rd Suite,<br></br> San Ramon, CA 94582</p>
              </div>
          </div>
-         <div className={styles.detailBlock}>
+         <div className={styles.detailBlock} style={{position: "relative"}}>
+          <span
+            style={{
+              position: "absolute",
+              top: "2px",
+              right: "10px",
+              cursor: "pointer",
+              fontWeight: "bold",
+              color: "#999",
+              fontSize: "20px",
+            }}
+          >
+            &#10005;
+          </span>
               <Image src={park} alt="House Icon" width={70} height={70} style={{marginLeft: "6px"}}/>
              <div className={styles.details}>
               <p className={styles.location}>Rancho San Ramon Community Park</p>
