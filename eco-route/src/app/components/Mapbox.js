@@ -18,6 +18,7 @@ export default function Mapbox ({ mapStyle, initialViewState, style, maxZoom, mi
             maxZoom,
             minZoom,
         });
+        mapRef.current.addControl(new mapboxgl.NavigationControl(), "top-right");
 
         return () => mapRef.current && mapRef.current.remove();
     }, [mapStyle, initialViewState, maxZoom, minZoom]);
@@ -62,7 +63,7 @@ export default function Mapbox ({ mapStyle, initialViewState, style, maxZoom, mi
     return (
         <div
             ref={mapContainer}
-            style={typeof style === "object" ? style : { width: "100%", height: "380px", borderRadius: "8px" }}
+            style={typeof style === "object" ? style : { width: "100%", height: "415px", borderRadius: "8px" }}
         />
     );
 }

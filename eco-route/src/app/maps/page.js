@@ -16,7 +16,7 @@ import uber from '../images/favImages/uber.png';
 import { Button } from '@heroui/button';
 import { Input } from "@heroui/react";
 import { AddressAutofill } from '@mapbox/search-js-react';
-import { SearchBox } from "@mapbox/search-js-react"; 
+import { SearchBox } from "@mapbox/search-js-react";
 import { useState, useMemo } from 'react';
 
 const MAPBOX_TOKEN = "pk.eyJ1IjoiYWR5bWFwcyIsImEiOiJjbWR4b2R1MTUxdzhqMmxvbmFpYXF4azJkIn0.OYKbEcywM_i-3CNIMQmsdg";
@@ -29,6 +29,16 @@ const MAPBOX_CONFIG = {
     latitude: 37.7577,
     longitude: -121.9358,
     zoom: 11
+  }
+};
+
+const theme = {
+  variables: {
+    fontFamily: 'JetBrains Mono, monospace',
+    unit: '14px',
+    padding: '0.5em',
+    borderRadius: '10px',
+    border: '0px',
   }
 };
 
@@ -62,24 +72,24 @@ export default function Maps() {
   }
 
   async function getRoadDistance(start, end, accessToken) {
-  try {
-    const response = await fetch(
-      `https://api.mapbox.com/directions/v5/mapbox/driving/${start.lng},${start.lat};${end.lng},${end.lat}?` +
-      `access_token=${accessToken}&geometries=geojson&overview=simplified`
-    );
-    
-    const data = await response.json();
-    
-    if (data.routes && data.routes.length > 0) {
-      const distanceMeters = data.routes[0].distance;
-      const distanceMiles = distanceMeters * 0.000621371;
-      return Math.round(distanceMiles * 100) / 100;
+    try {
+      const response = await fetch(
+        `https://api.mapbox.com/directions/v5/mapbox/driving/${start.lng},${start.lat};${end.lng},${end.lat}?` +
+        `access_token=${accessToken}&geometries=geojson&overview=simplified`
+      );
+
+      const data = await response.json();
+
+      if (data.routes && data.routes.length > 0) {
+        const distanceMeters = data.routes[0].distance;
+        const distanceMiles = distanceMeters * 0.000621371;
+        return Math.round(distanceMiles * 100) / 100;
+      }
+      return null;
+    } catch (error) {
+      return null;
     }
-    return null;
-  } catch (error) {
-    return null;
   }
-}
 
   // Memoize the Mapbox component to prevent unnecessary re-renders
   const memoizedMapbox = useMemo(() => (
@@ -103,42 +113,32 @@ export default function Maps() {
         <h1 className={styles.title}>MAPS</h1>
         <hr className={styles.seperator} />
 
-        <form style={{ width: '100%', marginTop: '-10px' }}>
-          <AddressAutofill accessToken={MAPBOX_TOKEN}>
-            <Input
-              label="Start Point"
-              type="text"
-              className={styles.mapInput}
-              key="start-primary"
-              color="primary"
-              value={inputStart}
-              onChange={(e) => setInputStart(e.target.value)}
-              autoComplete="address-line1"
-              style={{ width: '100%' }}
-            />
-          </AddressAutofill>
+        <form style={{ width: '100%', marginTop: '-10px', marginBottom: '10px' }}>
+          <SearchBox
+            accessToken={MAPBOX_TOKEN}
+            theme={theme}
+            placeholder="Start Location"
+            value={inputStart}
+            onChange={(e) => setInputStart(e.target.value)}
+            onRetrieve={(res) => setInputStart(res.features[0].properties.full_address)}>
+          </SearchBox>
         </form>
-        <form style={{ width: '100%', marginTop: '-1px' }}>
-          <AddressAutofill accessToken={MAPBOX_TOKEN}>
-            <Input
-              label="Destination"
-              type="text"
-              className={styles.input}
-              key="dest-primary"
-              color="primary"
-              value={inputDest}
-              onChange={(e) => setInputDest(e.target.value)}
-              autoComplete="address-line1"
-              style={{ width: '100%' }}                
-            />
-          </AddressAutofill>
+
+        <form style={{ width: '100%', marginBottom: '10px' }}>
+          <SearchBox
+            accessToken={MAPBOX_TOKEN}
+            theme={theme}
+            placeholder="End Location"
+            value={inputDest}
+            onChange={(e) => setInputDest(e.target.value)}
+            onRetrieve={(res) => setInputDest(res.features[0].properties.full_address)}>
+          </SearchBox>
         </form>
 
         <div className={styles.inputContainer}>
           <Button
             className={styles.button}
             onPress={handleRoute}
-            style={{ marginTop: "-10px" }}
           >
             Start
           </Button>
@@ -153,11 +153,11 @@ export default function Maps() {
             style={{ marginLeft: "10px" }}
           />
           <div className={styles.details}>
-            <p className={styles.vehicleType} style={{ marginLeft: "-8px" }}>
+            <p className={styles.vehicleType}  >
               Bicycle Recommended
             </p>
           </div>
-          <div className={styles.details} style={{ marginLeft: "-58px" }}>
+          <div className={styles.details} style={{ marginRight: "20px" }}>
             <span style={{ borderLeft: "2px solid #007EA7", height: "35px", paddingLeft: "10px" }}>
               <p className={styles.address}>
                 CO2 Emissions Saved:<strong style={{ color: "#109548" }}> 2 kg</strong>
