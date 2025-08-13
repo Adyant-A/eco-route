@@ -42,6 +42,20 @@ const theme = {
   }
 };
 
+// Add the missing getRoadDistance function
+async function getRoadDistance(start, dest, token) {
+  const response = await fetch(
+      `https://api.mapbox.com/directions/v5/mapbox/driving/${start.lng},${start.lat};${dest.lng},${dest.lat}?access_token=${token}&geometries=geojson`
+    );
+    const data = await response.json();
+    
+    if (data.routes && data.routes.length > 0) {
+      // Distance is returned in meters, convert to km
+      return (data.routes[0].distance / 1000).toFixed(1);
+    }
+    return null;
+}
+
 export default function Maps() {
   // Form inputs (for typing)
   const [inputStart, setInputStart] = useState("");
@@ -51,44 +65,59 @@ export default function Maps() {
   const [startCoords, setStartCoords] = useState(null);
   const [destCoords, setDestCoords] = useState(null);
 
+  // Vehicle variables 
+  const [distance, setDistance] = useState(null);
+  const [vehicleType, setVehicleType] = useState(null);
+
+  // Vehicle data
+  const vehicleData = {
+    Bicycle: {
+      icon: bicycle,
+      label: "Bicycle Recommended"
+    },
+    Car: {
+      icon: car,
+      label: "Car Recommended"
+    },
+    Transit: {
+      icon: bus,
+      label: "Bus Recommended"
+    }
+  };
+
   async function handleRoute() {
     const start = await geocodeAddress(inputStart);
-    const dest = await geocodeAddress(inputDest);
-    setStartCoords(start);
-    setDestCoords(dest);
+      const dest = await geocodeAddress(inputDest);
+      
+      setStartCoords(start);
+      setDestCoords(dest);
+
+      if (start && dest) {
+        const dist = await getRoadDistance(start, dest, MAPBOX_TOKEN);
+        // convert distance from km to miles
+        const miles = (dist * 0.621371).toFixed(1);
+        setDistance(miles);
+        
+        if (miles < 5) {
+          setVehicleType("Bicycle");
+        } else if (miles < 20) {
+          setVehicleType("Car");
+        } else {
+          setVehicleType("Transit");
+        }
   }
+}
 
   async function geocodeAddress(address) {
-    console.log("Geocoding address:", address);
     const res = await fetch(
-      `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(address)}.json?access_token=${MAPBOX_TOKEN}`
-    );
-    const data = await res.json();
-    if (data.features.length > 0) {
-      const [lng, lat] = data.features[0].center;
-      return { lng, lat };
-    }
-    return null;
-  }
-
-  async function getRoadDistance(start, end, accessToken) {
-    try {
-      const response = await fetch(
-        `https://api.mapbox.com/directions/v5/mapbox/driving/${start.lng},${start.lat};${end.lng},${end.lat}?` +
-        `access_token=${accessToken}&geometries=geojson&overview=simplified`
+        `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(address)}.json?access_token=${MAPBOX_TOKEN}`
       );
-
-      const data = await response.json();
-
-      if (data.routes && data.routes.length > 0) {
-        const distanceMeters = data.routes[0].distance;
-        const distanceMiles = distanceMeters * 0.000621371;
-        return Math.round(distanceMiles * 100) / 100;
+      const data = await res.json();
+      if (data.features && data.features.length > 0) {
+        const [lng, lat] = data.features[0].center;
+        return { lng, lat };
       }
       return null;
-    } catch (error) {
-      return null;
-    }
   }
 
   // Memoize the Mapbox component to prevent unnecessary re-renders
@@ -135,7 +164,7 @@ export default function Maps() {
           </SearchBox>
         </form>
 
-        <div className={styles.inputContainer}>
+        <div className={styles.inputContainer} style={{ marginBottom: "8px" }}>
           <Button
             className={styles.button}
             onPress={handleRoute}
@@ -144,27 +173,33 @@ export default function Maps() {
           </Button>
         </div>
 
-        <div className={styles.detailBlock} style={{ marginTop: "10px" }}>
-          <Image
-            src={bicycle}
-            alt="Bicycle Icon"
-            width={50}
-            height={50}
-            style={{ marginLeft: "10px" }}
-          />
-          <div className={styles.details}>
-            <p className={styles.vehicleType}  >
-              Bicycle Recommended
-            </p>
+        {vehicleType && vehicleData[vehicleType] && (
+          <div className={styles.detailBlock} 
+           style={{ 
+                position: 'absolute',
+                top: '205px',
+                width: '300px',
+                left: '550px',
+                right: '200px',
+                zIndex: 100,
+                display: 'flex',
+              }}>
+            <Image
+              src={vehicleData[vehicleType].icon}
+              alt={`${vehicleType} Icon`}
+              width={50}
+              height={50}
+              style={{ marginLeft: "10px" }}
+            />
+            <div className={styles.details}>
+              <p className={styles.vehicleType}>{vehicleData[vehicleType].label}</p>
+              {distance && <p className={styles.address}>Distance: <strong style={{ color: "#109548" }}>{distance} mi</strong></p>}
+                <p className={styles.address}>
+                  CO2 Emissions Saved:<strong style={{ color: "#109548" }}> 2 kg</strong>
+                </p>
+            </div>
           </div>
-          <div className={styles.details} style={{ marginRight: "20px" }}>
-            <span style={{ borderLeft: "2px solid #007EA7", height: "35px", paddingLeft: "10px" }}>
-              <p className={styles.address}>
-                CO2 Emissions Saved:<strong style={{ color: "#109548" }}> 2 kg</strong>
-              </p>
-            </span>
-          </div>
-        </div>
+        )}
 
         {memoizedMapbox}
 

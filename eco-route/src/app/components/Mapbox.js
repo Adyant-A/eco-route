@@ -59,7 +59,7 @@ export default function Mapbox ({ mapStyle, initialViewState, style, maxZoom, mi
                 [start.lng, start.lat],
                 [destination.lng, destination.lat]
             ], {
-                padding: { top: 40, bottom: 40, left: 20, right: 20 }
+                padding: { top: 120, bottom: 20, left: 20, right: 20 }
             });
         };
 
@@ -69,7 +69,7 @@ export default function Mapbox ({ mapStyle, initialViewState, style, maxZoom, mi
     return (
         <div
             ref={mapContainer}
-            style={typeof style === "object" ? style : { width: "100%", height: "415px", borderRadius: "8px" }}
+            style={typeof style === "object" ? style : { width: "100%", height: "495px", borderRadius: "8px" , position: "relative" }}
         />
     );
 }
