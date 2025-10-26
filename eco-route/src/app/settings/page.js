@@ -35,18 +35,20 @@ export default function Settings() {
           <div className={styles.switchContainer}>
            <Switch size="sm" color="success" defaultSelected><p style={{fontSize:"14px"}}>Enable notifications</p></Switch>
          </div>
-         <h3>Transportation Preferences</h3>
          <div className={styles.switchContainer}>
-           <Switch size="sm" color="success"><p style={{fontSize:"14px"}}>I have a car</p></Switch>
+           <Switch size="sm" color="warning"><p style={{fontSize:"14px"}}>Avoid highways</p></Switch>
          </div>
-         <div className={styles.switchContainer}> 
-           <Switch size="sm" defaultSelected color="success"><p style={{fontSize:"14px"}}>I have a bicycle</p></Switch>
+         <div className={styles.switchContainer}>
+           <Switch size="sm" color="warning"><p style={{fontSize:"14px"}}>Avoid tolls</p></Switch>
          </div>
-         <div className={styles.switchContainer}> 
-           <Switch size="sm" defaultSelected color="success"><p style={{fontSize:"14px"}}>I use transit (BART, AC)</p></Switch>
+         <div className={styles.switchContainer}>
+           <Switch size="sm" color="success" defaultSelected><p style={{fontSize:"14px"}}>Prefer lowest carbon footprint</p></Switch>
          </div>
-         <div className={styles.switchContainer}> 
-           <Switch size="sm" color="success"><p style={{fontSize:"14px"}}>I use Uber</p></Switch>
+         <div className={styles.switchContainer}>
+           <Switch size="sm" color="primary"><p style={{fontSize:"14px"}}>Prefer shortest time</p></Switch>
+         </div>
+         <div className={styles.switchContainer}>
+           <Switch size="sm" color="success" defaultSelected><p style={{fontSize:"14px"}}>Show charging stations on map</p></Switch>
          </div>
          <p style={{fontWeight:"bold", color:"gray"}}>Member since Jan 2025</p>
         <BottomBar activeTab="settings" />

@@ -69,7 +69,7 @@ export default function Mapbox ({ mapStyle, initialViewState, style, maxZoom, mi
     return (
         <div
             ref={mapContainer}
-            style={typeof style === "object" ? style : { width: "100%", height: "495px", borderRadius: "8px" , position: "relative" }}
+            style={typeof style === "object" ? style : { width: "100%", height: "485px", borderRadius: "8px" , position: "relative" }}
         />
     );
 }

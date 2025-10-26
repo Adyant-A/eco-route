@@ -103,7 +103,7 @@ export default function Transportation() {
           </span>
           <Image src={uber} alt="House Icon" width={70} height={70} style={{ marginLeft: "6px" }} />
           <div className={styles.details}>
-            <p className={styles.location}>UberPOOL</p>
+            <p className={styles.location}>Uber</p>
             <p className={styles.badReccomendation}>Inefficent, Solo</p>
             <p className={styles.address}>Use only if neccesary</p>
           </div>

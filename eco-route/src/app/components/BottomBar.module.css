@@ -1,7 +1,7 @@
 .bottomBar {
     position: fixed;
     left: 50%;
-    bottom: 0;
+    bottom: 10px;
     transform: translateX(-50%);
     width: 370px;
     margin-bottom: 12px;

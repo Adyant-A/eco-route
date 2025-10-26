@@ -93,7 +93,13 @@ export default function Maps() {
     Transit: 150
   };
 
-  async function handleRoute() {
+  const handleRoute = async () => {
+    console.log('Current vehicleType:', vehicleType); // Debug log
+    if (!inputStart || !inputDest) {
+      console.log('Missing start or destination'); // Debug log
+      return;
+    }
+
     const start = await geocodeAddress(inputStart);
     const dest = await geocodeAddress(inputDest);
 
@@ -193,14 +199,15 @@ export default function Maps() {
         </div>
 
         {vehicleType && vehicleData[vehicleType] && (
-          <div className={styles.detailBlock}
+          <div className={styles.mapBlock}
             style={{
-              position: 'absolute',
-              top: '205px',
-              width: '300px',
-              left: '550px',
-              right: '200px',
-              zIndex: 100,
+              position: 'fixed',
+              top: '95px',
+              left: '45%',
+              transform: 'translateX(-50%)',
+              width: '90%',
+              maxWidth: '280px',
+              zIndex: 1000,
               display: 'flex',
             }}>
             <Image

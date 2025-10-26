@@ -11,7 +11,7 @@
   margin: 0;
   padding: 20px;
   background-color: #ffffff;
-  width: 400px;
+  width: 390px;
   align-items: center;
 }
 
@@ -53,12 +53,18 @@
 }
 
 .homeButton {
-  position: absolute;
-  top: 10px;
-  right: 840px;
+  position: fixed;
+  top: 8px;
+  left: 10px;
   background-color: transparent;
   border: none;
   cursor: pointer;
+  z-index: 1000;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .title {
@@ -87,6 +93,24 @@
   color: white;
   gap: 32px;
   margin-bottom: 10px;
+}
+
+.mapBlock {
+  background-color: #EDFCFF;
+  border:#007EA7 2px solid;
+  width: 100%;
+  border-radius: 12px;
+  padding: 6px;
+  display: flex;
+  margin: 0px 0;
+  margin-top: 120px;
+  flex-direction: row;
+  align-items: center;
+  color: black;
+  gap: 20px;
+  overflow: visible;
+  -webkit-transform: translate3d(0,0,1px);
+  transform: translate3d(0,0,1px);
 }
 
 .detailBlock {
