@@ -5,6 +5,7 @@
 }
 
 .container {
+  position: relative; /* added so child absolute positioning is relative to this container */
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -53,7 +54,7 @@
 }
 
 .homeButton {
-  position: fixed;
+  position: absolute; /* changed from fixed -> absolute */
   top: 8px;
   left: 10px;
   background-color: transparent;
