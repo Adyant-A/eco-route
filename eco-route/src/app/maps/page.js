@@ -19,7 +19,9 @@ import car from '../images/favImages/car.png';
 import uber from '../images/favImages/uber.png';
 
 import { Button } from '@heroui/button';
-import { SearchBox } from "@mapbox/search-js-react";
+const SearchBox = dynamic(() => import("../components/SearchBoxClient"), {
+  ssr: false,
+});
 import { useState, useMemo } from 'react';
 
 const MAPBOX_TOKEN = "pk.eyJ1IjoiYWR5bWFwcyIsImEiOiJjbWR4b2R1MTUxdzhqMmxvbmFpYXF4azJkIn0.OYKbEcywM_i-3CNIMQmsdg";
