@@ -5,7 +5,12 @@ import styles from "../page.module.css";
 import BottomBar from '../components/BottomBar';
 import Image from 'next/image';
 import Link from 'next/link';
-import Mapbox from "../components/Mapbox";
+import dynamic from "next/dynamic";
+
+const Mapbox = dynamic(() => import("../components/Mapbox"), {
+  ssr: false,
+});
+
 
 import logout from '../icons/logout.png';
 import bicycle from '../images/favImages/bicycle.png';
